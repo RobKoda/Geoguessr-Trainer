@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoguessrTrainer.BlazorApp", "GeoguessrTrainer.BlazorApp\GeoguessrTrainer.BlazorApp.csproj", "{23D9AA36-78DE-4C69-8E8E-A2E4C5A46AF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoguessrTrainer.App", "GeoguessrTrainer.App\GeoguessrTrainer.App.csproj", "{11B6A844-8B44-44FA-8397-85B90B92A34A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoguessrTrainer.Domains", "GeoguessrTrainer.Domains\GeoguessrTrainer.Domains.csproj", "{B34D9FC8-0310-4591-AE29-553921CBFAE4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoGuessrTrainer.DomainGame", "GeoGuessrTrainer.DomainGame\GeoGuessrTrainer.DomainGame.csproj", "{7A736B45-2C29-4CCA-8158-DCA884525A73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,13 +10,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{23D9AA36-78DE-4C69-8E8E-A2E4C5A46AF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23D9AA36-78DE-4C69-8E8E-A2E4C5A46AF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23D9AA36-78DE-4C69-8E8E-A2E4C5A46AF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23D9AA36-78DE-4C69-8E8E-A2E4C5A46AF8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B34D9FC8-0310-4591-AE29-553921CBFAE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B34D9FC8-0310-4591-AE29-553921CBFAE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B34D9FC8-0310-4591-AE29-553921CBFAE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B34D9FC8-0310-4591-AE29-553921CBFAE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11B6A844-8B44-44FA-8397-85B90B92A34A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11B6A844-8B44-44FA-8397-85B90B92A34A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11B6A844-8B44-44FA-8397-85B90B92A34A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11B6A844-8B44-44FA-8397-85B90B92A34A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A736B45-2C29-4CCA-8158-DCA884525A73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A736B45-2C29-4CCA-8158-DCA884525A73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A736B45-2C29-4CCA-8158-DCA884525A73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A736B45-2C29-4CCA-8158-DCA884525A73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
