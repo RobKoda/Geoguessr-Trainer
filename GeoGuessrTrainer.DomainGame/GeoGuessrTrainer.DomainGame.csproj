@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+        <SupportedPlatform Include="browser" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.0" />
+        <PackageReference Include="Radzen.Blazor" Version="4.4.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\background.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\exampleJsInterop.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Pages\DomainsGamePage.razor" />
+      <AdditionalFiles Include="Pages\DomainsStatsPage.razor" />
+    </ItemGroup>
+
+</Project>
