@@ -1,0 +1,39 @@
+﻿@page "/Domains/Stats"
+@using Blazored.LocalStorage
+@using GeoguessrTrainer.Domains.Stats
+
+@inject ILocalStorageService LocalStorageService
+
+@if (_domainsStats != null)
+{
+    <RadzenDataGrid Data="@_domainsStats" TItem="CountryStat" AllowSorting="true">
+        <Columns>
+            <RadzenDataGridColumn TItem="CountryStat" Property="GuessableDomain.Country" Title="Country"/>
+            <RadzenDataGridColumn TItem="CountryStat" Property="GuessableDomain.Domain" Title="Domain"/>
+            <RadzenDataGridColumn TItem="CountryStat" Property="PromptedCount" Title="Prompted"/>
+            <RadzenDataGridColumn TItem="CountryStat" Property="SuccessCount" Title="Success"/>
+            <RadzenDataGridColumn TItem="CountryStat" Property="SuccessRate" Title="Success rate"/>
+        </Columns>
+    </RadzenDataGrid>
+}
+
+@code {
+        private const string StatsCookieKey = "com.robkoda.geoguessrtrainer.domains";
+
+    private IList<CountryStat>? _domainsStats;
+
+    private async Task LoadStats() =>
+        _domainsStats = (await LocalStorageService.GetItemAsync<DomainsStats>(StatsCookieKey) ?? new DomainsStats()).Stats.OrderBy(inDomain => inDomain.GuessableDomain.Country).ToList();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            await LoadStats();
+            StateHasChanged();
+        }
+    }
+
+}

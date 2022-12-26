@@ -1,0 +1,104 @@
+﻿@page "/Domains/Game"
+@using GeoguessrTrainer.Domains.Game
+@using GeoguessrTrainer.Domains.Stats
+@using Blazored.LocalStorage
+
+@inject ILocalStorageService LocalStorageService
+
+<RadzenText @bind-Text="@Prompt" @ref="@ToLooseFocus" TextStyle="TextStyle.H1" Style="text-align: center"/>
+<RadzenTextBox @ref="@UserInputComponent" @bind-Value="@UserInput" @onkeydown="@OnValueChangedAsync" Style="width:90%; height:80px; font-size:60px; margin-left: 5%; margin-right: 5%"/>
+<RadzenText @bind-Text="@Score" TextStyle="TextStyle.H1" Style="text-align: center; margin-top: 20px"/>
+
+@code {
+        private const string StatsCookieKey = "com.robkoda.geoguessrtrainer.domains";
+
+    private string Prompt { get; set; } = string.Empty;
+    private string UserInput { get; set; } = string.Empty;
+    private string Score { get; set; } = string.Empty;
+
+    private RadzenTextBox UserInputComponent { get; set; } = null!;
+    private RadzenText ToLooseFocus { get; set; } = null!;
+
+    private GuessableDomainList _guessableList = null!;
+    private GuessableDomain _guessable = null!;
+
+    private DomainsStats _domainsStats = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _guessableList = new GuessableDomainList();
+    }
+
+    private async Task LoadStats() {
+        _domainsStats = await LocalStorageService.GetItemAsync<DomainsStats>(StatsCookieKey) ?? new DomainsStats();
+
+        var theNotGuessedCountries = _domainsStats.Stats.Where(inStat => inStat.PromptedCount == 0).Select(inNotGuessed => inNotGuessed.GuessableDomain).ToList();
+        if (theNotGuessedCountries.Any())
+        {
+            _guessableList.SetPool(theNotGuessedCountries);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            await LoadStats();
+            await NextGuessSetupAsync();
+            StateHasChanged();
+        }
+    }
+
+    private async Task NextGuessSetupAsync()
+    {
+        _guessable = _guessableList.GetNext();
+        Prompt = _guessable.Domain;
+        UserInput = string.Empty;
+
+        await LocalStorageService.SetItemAsync(StatsCookieKey, _domainsStats);
+
+        await UserInputComponent.Element.FocusAsync();
+    }
+
+    private async Task OnUserInputAsync()
+    {
+        await ToLooseFocus.Element.FocusAsync();
+
+        var theResult = DamerauLevenshteinDistanceCalculator.GetDistance(UserInput.ToUpperInvariant(), _guessable.Country.ToUpperInvariant(), 100);
+
+        string theScoreText;
+        _domainsStats.AddPrompted(_guessable);
+
+        if (DamerauLevenshteinDistanceCalculator.IsSuccess(_guessable.Country, theResult))
+        {
+            theScoreText = $"Yep ({theResult})";
+            _domainsStats.AddSuccess(_guessable);
+        }
+        else
+        {
+            theScoreText = $"Nope ({theResult})";
+        }
+
+        await LocalStorageService.SetItemAsync(StatsCookieKey, _domainsStats);
+
+        if (theResult > 0)
+        {
+            theScoreText = string.Concat(theScoreText, $" - {_guessable.Country}");
+        }
+
+        Score = theScoreText;
+
+        await NextGuessSetupAsync();
+    }
+
+    private async Task OnValueChangedAsync(KeyboardEventArgs arg)
+    {
+        if (arg.Key != "Enter") return;
+
+        await OnUserInputAsync();
+    }
+
+}
