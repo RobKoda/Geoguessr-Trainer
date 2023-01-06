@@ -1,18 +1,14 @@
 ﻿@page "/Domains/Game"
-@using GeoguessrTrainer.Domains.Game
-@using GeoguessrTrainer.Domains.Stats
-@using Blazored.LocalStorage
-@using Microsoft.AspNetCore.Components.Web
-@using Radzen.Blazor
+@using GeoGuessrTrainer.DomainGame.Game
+@using GeoGuessrTrainer.DomainGame.Stats
 
-@inject ILocalStorageService LocalStorageService
+@inject DomainsStatsSaver DomainsStatsSaver
 
 <RadzenText @bind-Text="@Prompt" @ref="@ToLooseFocus" TextStyle="TextStyle.H1" Style="text-align: center"/>
 <RadzenTextBox @ref="@UserInputComponent" @bind-Value="@UserInput" @onkeydown="@OnValueChangedAsync" Style="width:90%; height:80px; font-size:60px; margin-left: 5%; margin-right: 5%"/>
 <RadzenText @bind-Text="@Score" TextStyle="TextStyle.H1" Style="text-align: center; margin-top: 20px"/>
 
 @code {
-        private const string StatsCookieKey = "com.robkoda.geoguessrtrainer.domains";
 
     private string Prompt { get; set; } = string.Empty;
     private string UserInput { get; set; } = string.Empty;
@@ -32,8 +28,9 @@
         _guessableList = new GuessableDomainList();
     }
 
-    private async Task LoadStats() {
-        _domainsStats = await LocalStorageService.GetItemAsync<DomainsStats>(StatsCookieKey) ?? new DomainsStats();
+    private async Task LoadStats()
+    {
+        _domainsStats = await DomainsStatsSaver.GetStats();
 
         var theNotGuessedCountries = _domainsStats.Stats.Where(inStat => inStat.PromptedCount == 0).Select(inNotGuessed => inNotGuessed.GuessableDomain).ToList();
         if (theNotGuessedCountries.Any())
@@ -60,7 +57,7 @@
         Prompt = _guessable.Domain;
         UserInput = string.Empty;
 
-        await LocalStorageService.SetItemAsync(StatsCookieKey, _domainsStats);
+        await DomainsStatsSaver.SaveStats(_domainsStats);
 
         await UserInputComponent.Element.FocusAsync();
     }
@@ -84,7 +81,7 @@
             theScoreText = $"Nope ({theResult})";
         }
 
-        await LocalStorageService.SetItemAsync(StatsCookieKey, _domainsStats);
+        await DomainsStatsSaver.SaveStats(_domainsStats);
 
         if (theResult > 0)
         {

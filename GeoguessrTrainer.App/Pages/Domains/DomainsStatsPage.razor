@@ -1,8 +1,8 @@
 ﻿@page "/Domains/Stats"
-@using Blazored.LocalStorage
-@using GeoguessrTrainer.Domains.Stats
 
-@inject ILocalStorageService LocalStorageService
+@using GeoGuessrTrainer.DomainGame.Stats
+
+@inject DomainsStatsSaver DomainsStatsSaver
 
 @if (_domainsStats != null)
 {
@@ -18,12 +18,13 @@
 }
 
 @code {
-        private const string StatsCookieKey = "com.robkoda.geoguessrtrainer.domains";
-
     private IList<CountryStat>? _domainsStats;
 
-    private async Task LoadStats() =>
-        _domainsStats = (await LocalStorageService.GetItemAsync<DomainsStats>(StatsCookieKey) ?? new DomainsStats()).Stats.OrderBy(inDomain => inDomain.GuessableDomain.Country).ToList();
+    private async Task LoadStats()
+    {
+        _domainsStats = (await DomainsStatsSaver.GetStats()).Stats.OrderBy(inDomain => inDomain.GuessableDomain.Country).ToList();
+    }
+
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

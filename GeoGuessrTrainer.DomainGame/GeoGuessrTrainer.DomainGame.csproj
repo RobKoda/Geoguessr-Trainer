@@ -13,18 +13,13 @@
 
     <ItemGroup>
         <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.0" />
-        <PackageReference Include="Radzen.Blazor" Version="4.4.7" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.1" />
+        <PackageReference Include="Radzen.Blazor" Version="4.4.8" />
     </ItemGroup>
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="wwwroot\background.png" />
       <_ContentIncludedByDefault Remove="wwwroot\exampleJsInterop.js" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="Pages\DomainsGamePage.razor" />
-      <AdditionalFiles Include="Pages\DomainsStatsPage.razor" />
     </ItemGroup>
 
 </Project>

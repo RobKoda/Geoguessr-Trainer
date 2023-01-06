@@ -1,18 +1,16 @@
 ﻿using System.Text.Json.Serialization;
-using GeoguessrTrainer.Domains.Game;
+using GeoGuessrTrainer.DomainGame.Game;
 
-namespace GeoguessrTrainer.Domains.Stats;
+namespace GeoGuessrTrainer.DomainGame.Stats;
 
 public sealed class DomainsStats
 {
     // ReSharper disable once MemberCanBePrivate.Global - Used for serialization in local storage
     public IList<CountryStat> Stats { get; }
 
-    [JsonIgnore]
-    public int TotalPrompted => Stats.Sum(inStat => inStat.PromptedCount);
+    [JsonIgnore] private int TotalPrompted => Stats.Sum(inStat => inStat.PromptedCount);
 
-    [JsonIgnore]
-    public int TotalSuccess => Stats.Sum(inStat => inStat.SuccessCount);
+    [JsonIgnore] private int TotalSuccess => Stats.Sum(inStat => inStat.SuccessCount);
 
     [JsonIgnore]
     public double SuccessPercentage => (double) TotalSuccess / TotalPrompted;
@@ -26,16 +24,14 @@ public sealed class DomainsStats
         }
     }
 
-    public void AddPrompted(GuessableDomain inDomain)
+    public DomainsStats(IList<CountryStat> stats)
     {
-        var theGuessableDomain = Stats.SingleOrDefault(inCountryStat => inCountryStat.GuessableDomain == inDomain);
-        theGuessableDomain!.PromptedCount++;
+        Stats = stats;
     }
 
-    public void AddSuccess(GuessableDomain inDomain)
-    {
-        var theGuessableDomain = Stats.SingleOrDefault(inCountryStat => inCountryStat.GuessableDomain == inDomain);
-        theGuessableDomain!.PromptedCount++;
-        theGuessableDomain.SuccessCount++;
-    }
+    public void AddPrompted(GuessableDomain inDomain) =>
+        Stats.SingleOrDefault(inCountryStat => inCountryStat.GuessableDomain == inDomain)!.PromptedCount++;
+
+    public void AddSuccess(GuessableDomain inDomain) =>
+        Stats.SingleOrDefault(inCountryStat => inCountryStat.GuessableDomain == inDomain)!.SuccessCount++;
 }

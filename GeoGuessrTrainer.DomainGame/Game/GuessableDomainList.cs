@@ -1,4 +1,4 @@
-﻿namespace GeoguessrTrainer.Domains.Game;
+﻿namespace GeoGuessrTrainer.DomainGame.Game;
 
 public sealed class GuessableDomainList
 {
@@ -10,10 +10,8 @@ public sealed class GuessableDomainList
         return _pool.Pop();
     }
 
-    public void SetPool(IEnumerable<GuessableDomain> inPool)
-    {
-        _pool = new Stack<GuessableDomain>(inPool);
-    }
+    public void SetPool(IEnumerable<GuessableDomain> inPool) =>
+        _pool = new Stack<GuessableDomain>(inPool.Shuffle());
 
     private void EnsurePoolHasNext()
     {

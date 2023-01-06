@@ -1,4 +1,4 @@
-﻿namespace GeoguessrTrainer.Domains.Game;
+﻿namespace GeoGuessrTrainer.DomainGame.Game;
 
 public static class DamerauLevenshteinDistanceCalculator
 {

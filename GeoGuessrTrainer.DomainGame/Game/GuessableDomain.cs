@@ -1,8 +1,6 @@
-﻿
+﻿// ReSharper disable StringLiteralTypo - Country names
 
-// ReSharper disable StringLiteralTypo - Country names
-
-namespace GeoguessrTrainer.Domains.Game;
+namespace GeoGuessrTrainer.DomainGame.Game;
 
 public sealed record GuessableDomain(string Country, string Domain)
 {
